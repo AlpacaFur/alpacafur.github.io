@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>HexClock</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+      body {
+        background-color: black;
+        overflow:hidden;
+        transition: background-color ease 3s;
+      }
+      .arial {
+        font-family: Arial;
+      }
+      #hexclock {
+        margin: 0px;
+        line-height: 0.9em;
+        color:white;
+        cursor:pointer;
+        font-family:"Roboto Mono", sans-serif;
+        font-size:calc(100vw/5);
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
+        text-shadow:0.025em 0.025em #bbb;
+        user-select: none;
+      }
+      .transition {
+        animation: fade linear 1.5s;
+      }
+      @keyframes fade {
+        45% {
+          color: transparent;
+          text-shadow: 0px 0px transparent;
+        }
+        55% {
+          color: transparent;
+          text-shadow: 0px 0px transparent;
+        }
+        100% {
+          color:white;
+          text-shadow: 0.025em 0.025em #bbb;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <p id="hexclock">00:00:00</p>
+  </body>
+  <script>
+  var hexmode = true
+  function changeTime() {
+    let time = new Date()
+    let hexhrs = (Math.ceil(255 * time.getHours() / 24)).toString(16).padStart(2,"0")
+    let hexmins = (Math.ceil(255 * time.getMinutes() / 60)).toString(16).padStart(2,"0")
+    let hexsecs = (Math.ceil(255 * (time.getSeconds() + (time.getMilliseconds()/1000)) / 60)).toString(16).padStart(2,"0")
+    let hexval = "#"+hexhrs+hexmins+hexsecs
+    hexclock.innerHTML = hexmode ? hexval.toUpperCase() : `${time.getHours().toString().padStart(2,"0")}<span class="arial">:</span>${time.getMinutes().toString().padStart(2,"0")}<span class="arial">:</span>${time.getSeconds().toString().padStart(2,"0")}`
+    document.body.style.backgroundColor = hexval
+  }
+  changeTime()
+  setInterval(changeTime, 1000)
+  hexclock.onclick = ()=>{
+    if (!hexclock.classList.contains("transition")) {
+      hexclock.classList.add("transition")
+      setTimeout(()=>{
+        hexmode = !hexmode;
+        changeTime()
+      }, 750)
+      setTimeout(()=>{
+        hexclock.classList.remove("transition")
+      },1500)
+    }
+  }
+  </script>
+</html>
