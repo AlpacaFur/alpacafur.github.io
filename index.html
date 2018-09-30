@@ -35,15 +35,15 @@
     function handler(e) {
       e.preventDefault();
       let href = e.target.href;
-      console.log(href);
-      document.body.classList.add(href.endsWith("/console") ? "fadeblack" : "fade")
-      console.log(e);
-      setTimeout(()=>{
-        window.location = e.target.href
-      },1000)
+      if (href != location.href+"#" && href != location.href) {
+        document.body.classList.add(href.endsWith("/console") ? "fadeblack" : "fade")
+        setTimeout(()=>{
+          window.location = e.target.href
+        },1000)
+      }
     }
     for (var ls = document.links, numLinks = ls.length, i=0; i<numLinks; i++){
-      ls[i].onclick= handler;
+      ls[i].onclick=handler;
     }
   </script>
 </html>
