@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+body {
+  vertical-align:middle;
+  font-size:13px;
+  font-family: "Inconsolata"
+}
+pre {
+  margin-bottom:0px;
+  position:relative;
+  word-break: break-all;
+  white-space: pre-wrap;
+  overflow: hidden;
+}
+#console-text {
+  /* FIXES SMALL GAP BETWEEN PRE TAGS */
+  margin-bottom: -0.17em;
+}
+#inputline {
+  margin-top:0px;
+}
+.console-container {
+  margin-left:8px;
+}
+#caret {
+  position:relative;
+  user-select:none;
+}
+#caret {
+  animation:caret .75s step-end infinite;
+}
+@keyframes caret { from, to { color: transparent } 50% { color: inherit; }}

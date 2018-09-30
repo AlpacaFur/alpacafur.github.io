@@ -1,0 +1,11 @@
+body {
+  background-color:white;
+  color: black;
+}
+.error {
+  color:red;
+}
+#caret {
+  animation:caret .75s step-end infinite;
+}
+@keyframes caret { from, to { color: transparent } 50% { color: #a0a0a0; }}

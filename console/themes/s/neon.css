@@ -1,0 +1,27 @@
+body {
+  background-color:black;
+  color: lightblue;
+}
+.error {
+  color:red;
+}
+.prompt {
+  color:white;
+  text-shadow: 0px 0px 12px #FFF;
+}
+pre {
+  background-color: transparent;
+  text-shadow: 0px 0px 12px #DFF;
+}
+.error {
+  color: red;
+  text-shadow: 0px 0px 12px #f00;
+}
+.first-word {
+  color: palegoldenrod;
+  text-shadow: 0px 0px 12px palegoldenrod;
+}
+#caret {
+  animation:caret .75s step-end infinite;
+}
+@keyframes caret { from, to { color: transparent; text-shadow: none;} 50% { color:unset; text-shadow: 0px 0px 10px lightblue; }}

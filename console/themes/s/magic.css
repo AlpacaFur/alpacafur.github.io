@@ -1,0 +1,31 @@
+body {
+  background-color:black;
+  color: white;
+}
+pre {
+  background: linear-gradient(to right, red, orange, yellow, green, cyan, steelblue, orchid);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-color: red;
+}
+.error {
+  -webkit-background-clip: none;
+  -webkit-text-fill-color: initial;
+  color:white;
+  text-shadow: 0px 0px 12px #FFF;
+
+}
+.header {
+  font-weight: bold;
+}
+.prompt {
+  color: #F0F;
+  -webkit-text-fill-color: initial;
+  text-shadow: 0px 0px 12px #F0F;
+}
+#caret {
+  -webkit-background-clip: none;
+  -webkit-text-fill-color: initial;
+  animation:caret .75s step-end infinite;
+}
+@keyframes caret { from, to { color: transparent;} 50% { color:unset; }}

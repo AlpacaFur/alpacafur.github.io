@@ -1,0 +1,13 @@
+body {
+  background-color:#022258;
+  color: white;
+}
+.error {
+  color:red;
+}
+.header {
+  font-weight: bold;
+}
+.first-word {
+  color:yellow;
+}
