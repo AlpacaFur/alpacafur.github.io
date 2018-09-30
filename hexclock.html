@@ -10,6 +10,7 @@
         background-color: black;
         overflow:hidden;
         transition: background-color ease 3s;
+        animation: fadein 1s ease;
       }
       .arial {
         font-family: Arial;
@@ -43,6 +44,12 @@
         100% {
           color:white;
           text-shadow: 0.025em 0.025em #bbb;
+        }
+      }
+      @keyframes fadein {
+        from {
+          opacity: 0;
+          background-color: transparent;
         }
       }
     </style>
