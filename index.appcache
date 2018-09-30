@@ -1,0 +1,29 @@
+---
+---
+CACHE MANIFEST
+
+# alpacafur.appcache v1
+index.html
+index.css
+assets/console1024.png
+assets/hexclock1024.png
+
+console/
+console/commands.js
+console/terminal.js
+console/index.html
+console/themes/basetheme.css
+console/themes/default.css
+console/themes/green.css
+console/themes/light.css
+console/themes/powershell.css
+console/themes/red.css
+console/themes/s/neon.css
+console/themes/s/magic.css
+console/themes/s/purple.css
+console/themes/s/virus.css
+console/themes/s/solarized.css
+
+
+NETWORK:
+*

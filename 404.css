@@ -1,0 +1,23 @@
+body {
+  font-family: "Arial", sans-serif;
+  text-align: center;
+}
+h1 {
+  font-size: calc(100vw/11);
+}
+p {
+  font-size: calc(70vw/11);
+}
+link {
+  color:#5495ff;
+  cursor: pointer;
+}
+.fade {
+  opacity: 1;
+  animation: fade 1.1s ease;
+}
+@keyframes fade {
+  to {
+    opacity: 0;
+  }
+}

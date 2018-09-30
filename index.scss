@@ -1,0 +1,152 @@
+---
+---
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
+body {
+  font-family: "Roboto";
+}
+body {
+  opacity: 1;
+  animation: fadein 1s ease;
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.alpacafur {
+  text-align: center;
+  font-size: calc(60vw/9);
+  a {
+    text-decoration: none;
+  }
+  a:visited {
+    color:inherit;
+  }
+}
+.projects-title {
+  margin-left: 5%;
+  font-size: calc(25vw/8)
+}
+.projects {
+  display: grid;
+  grid-template-columns:repeat(4, 1fr);
+  grid-gap: 1em;
+  width: 90%;
+  position: relative;
+  left:50%;
+  transform: translateX(-50%);
+}
+
+@media (max-width:1050px) {
+  .projects {
+    grid-template-columns:repeat(3, 1fr);
+    grid-gap: 0.5em;
+  }
+}
+@media (max-width:575px) {
+  .projects {
+    grid-template-columns:repeat(2, 1fr);
+    width:100%
+  }
+}
+@media (max-width:400px) {
+  .projects {
+    grid-template-columns:repeat(1, 1fr);
+  }
+}
+.project-card {
+  position: relative;
+
+  p, a {
+    opacity: 0;
+    color:white;
+    transition: opacity 0.25s ease;
+  }
+  img, svg {
+    width:100%;
+    transition: filter 0.15s ease;
+  }
+  p {
+    font-size: 220%;
+    position: absolute;
+    left:50%;
+    top:45%;
+    transform: translate(-50%, -70%);
+    margin:0px;
+    font-weight:bold;
+    transition: all 0.2s ease;
+
+  }
+  a {
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    position: absolute;
+    left:50%;
+    top:63%;
+    transform: translate(-50%,-30%);
+    border:1px solid white;
+    width: 115px;
+    height: 37px;
+    vertical-align:middle;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 200;
+    transition: all 0.2s ease;
+    line-height: 37px;
+
+    &:hover {
+      border:1px solid transparent;
+      background-color: white;
+      color:black;
+    }
+    &.disabled {
+      cursor:default;
+      border-color:dimgrey;
+      color: dimgrey;
+      text-decoration: line-through;
+    }
+    &.disabled:hover {
+      border:1px solid dimgrey;
+      background-color: transparent;
+      color:dimgrey;
+    }
+  }
+
+  &:hover {
+    p, a {
+      opacity: 1;
+      transition:all 0.15s ease;
+      transform: translate(-50%, -50%);
+    }
+    img, svg {
+      filter: brightness(0.3);
+
+    }
+  }
+}
+.disabled {
+  border-color:grey;
+}
+.fade {
+  opacity: 1;
+  animation: fade 1.1s ease;
+}
+@keyframes fade {
+  to {
+    opacity: 0;
+  }
+}
+.fadeblack {
+  opacity: 1;
+  animation: fadeblack 1.1s ease;
+}
+@keyframes fadeblack {
+  to {
+    opacity: 0;
+    background-color: black;
+  }
+}

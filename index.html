@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" manifest="index.appcache">
   <head>
     <meta charset="utf-8">
     <title>Home</title>
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <h1>Test Page!</h1>
+    <h1 class="alpacafur"><a href="https://github.com/alpacafur">AlpacaFur</a></h1>
+    <h1 class="projects-title">Projects</h1>
+    <div class="projects">
+      <div class="project-card">
+        <img src="assets/hexclock1024.png" alt="Hexadecimal clock."/>
+        <p>HexClock</p>
+        <a href="/hexclock">View Project</a>
+      </div>
+      <div class="project-card">
+        <img src="assets/console1024.png" alt="Web console."/>
+        <p>WebShell</p>
+        <a href="/console">View Project</a>
+      </div>
+      <div class="project-card">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#bbb"><rect x="0" y="0" width="100" height="100" /></svg>
+        <p>Unknown</p>
+        <a href="#" class="disabled">View Project</a>
+      </div>
+      <div class="project-card">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#bbb"><rect x="0" y="0" width="100" height="100" /></svg>
+        <p>Unknown</p>
+        <a href="#" class="disabled">View Project</a>
+      </div>
+    </div>
   </body>
+  <script>
+    function handler(e) {
+      e.preventDefault();
+      let href = e.target.href;
+      console.log(href);
+      document.body.classList.add(href.endsWith("/console") ? "fadeblack" : "fade")
+      console.log(e);
+      setTimeout(()=>{
+        window.location = e.target.href
+      },1000)
+    }
+    for (var ls = document.links, numLinks = ls.length, i=0; i<numLinks; i++){
+      ls[i].onclick= handler;
+    }
+  </script>
 </html>

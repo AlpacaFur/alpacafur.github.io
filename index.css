@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
+body {
+  font-family: "Roboto";
+}
+.alpacafur {
+  text-align: center;
+  font-size: calc(60vw/9);
+}
+.projects-title {
+  margin-left: 5%;
+  font-size: calc(25vw/8)
+}
+.projects {
+  display: grid;
+  grid-template-columns:repeat(4, 1fr);
+  grid-gap: 1em;
+}
+@media (max-width:1050px) {
+  .projects {
+    grid-template-columns:repeat(3, 1fr);
+    grid-gap: 0.5em;
+  }
+}
+@media (max-width:575px) {
+  .projects {
+    grid-template-columns:repeat(2, 1fr);
+    grid-gap: 0.5em;
+  }
+}
+@media (max-width:400px) {
+  .projects {
+    grid-template-columns:repeat(1, 1fr);
+    grid-gap: 0.5em;
+  }
+}
+.project-card {
+  position: relative;
+}
+.project-card img {
+  width:100%;
+  transition: filter 0.15s ease;
+}
+.project-card p, .project-card a {
+  opacity: 0;
+  color:white;
+  transition: opacity 0.25s ease;
+}
+.project-card p {
+  font-size: 220%;
+  position: absolute;
+  left:50%;
+  top:45%;
+  transform: translate(-50%,-50%);
+  margin:0px;
+  font-weight:bold;
+}
+.project-card a {
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  position: absolute;
+  left:50%;
+  top:63%;
+  transform: translate(-50%,-80%);
+  border:1px solid white;
+  width: 115px;
+  height: 37px;
+  vertical-align:middle;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 200;
+  transition: all 0.15s ease;
+  line-height: 37px;
+}
+.project-card a:hover {
+  border:1px solid transparent;
+  background-color: white;
+  color:black;
+}
+.project-card:hover p {
+  opacity: 1;
+  transition:all 0.15s ease;
+}
+.project-card:hover a {
+  opacity: 1;
+  transition:all 0.15s ease;
+  transform: translate(-50%,-50%);
+}
+
+.project-card:hover img {
+  filter: brightness(0.3);
+}

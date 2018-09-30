@@ -29,7 +29,7 @@ var fileSystem = {"MainDisk":{
                               "SuperSecret":{
                                 "TOP_SECRET":{
                                   "secret.a":"<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>Secret</a>",
-                                  "about.md":"#### WebShell ####\nCreated By: LFTDev\n\nYWNjZXNzIC11bmxvY2s=",
+                                  "about.md":"#### WebShell ####\nCreated By: AlpacaFur\n\naGVscCAtcw==",
                                   "debug.info":"ctrl + ` restores prompt functionality regardless of the situation. May break the code."
                                 }
                               }
@@ -57,6 +57,7 @@ document.addEventListener("keydown", (e)=>{
   if (!visible) return;
   if (["Shift","CapsLock","Control","Alt","Meta","Escape","Dead"].includes(e.key) || e.key.match(/F\d+/)) return;
   if (e.key.match(/Arrow.+/)) {
+    if (e.metaKey || e.ctrlKey) return;
     e.preventDefault();
     switch (e.key) {
       case "ArrowLeft":
@@ -300,20 +301,6 @@ function buildList(files) {
 
 
 
-
-// var commandso = {
-//   secretshortcut: {
-//     cmdex: "secretshortcut",
-//     help: "Goes to secret directory.",
-//     activate: (args)=>{
-//       commands.cd.activate(["~/Documents/Secret/SuperSecret/TOP_SECRET"])
-//     },
-//     hidden: true
-//   }
-// }
-
-
-
 function switchTheme(theme) {
   document.getElementById("css").href = "themes/" + theme + ".css"
 }
@@ -534,7 +521,7 @@ function checkFlags(cmd, result) {
 
 
 printLine("<span class='intro'>WebShell [Version 1.5.00000.001]</span>");
-printLine("<span class='intro'>(c) 2018 LFTDev. All rights reserved.</span>");
+printLine("<span class='intro'>(c) 2018 AlpacaFur. All rights reserved.</span>");
 printNewLine();
 if (commands) {
 
@@ -551,7 +538,7 @@ queueLoading([
 ,13)
 .then(()=>{
   printNewLine();
-  printSuccess("BOOT COMPLETE");
+  printHeader("BOOT COMPLETE");
   printNewLine();
   showPrompt();
 })
