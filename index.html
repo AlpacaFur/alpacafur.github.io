@@ -39,6 +39,7 @@
         document.body.classList.add(href.endsWith("/console") ? "fadeblack" : "fade")
         setTimeout(()=>{
           window.location = e.target.href
+          document.body.classList.remove(href.endsWith("/console") ? "fadeblack" : "fade")
         },1000)
       }
     }
