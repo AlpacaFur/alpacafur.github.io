@@ -39,25 +39,22 @@ body {
   transform: translateX(-50%);
 }
 
-@media (max-width:1050px) {
-  .projects {
-    grid-template-columns:repeat(3, 1fr);
-    grid-gap: 0.5em;
-  }
-}
-@media (max-width:575px) {
-  .projects {
-    grid-template-columns:repeat(2, 1fr);
-    width:100%
-  }
-}
-@media (max-width:400px) {
-  .projects {
-    grid-template-columns:repeat(1, 1fr);
-  }
-}
 .project-card {
   position: relative;
+
+  &:not(.disabled-card){
+    p {
+      transform: translate(-50%, -70%);
+    }
+    a {
+      transform: translate(-50%,-30%);
+    }
+  }
+  &.disabled-card {
+    p,a {
+      transform: translate(-50%, -50%);
+    }
+  }
 
   p, a {
     opacity: 0;
@@ -73,7 +70,6 @@ body {
     position: absolute;
     left:50%;
     top:45%;
-    transform: translate(-50%, -70%);
     margin:0px;
     font-weight:bold;
     transition: all 0.2s ease;
@@ -85,16 +81,13 @@ body {
     position: absolute;
     left:50%;
     top:63%;
-    transform: translate(-50%,-30%);
     border:1px solid white;
-    width: 115px;
-    height: 37px;
+    padding: 10px 9px;
     vertical-align:middle;
     text-align: center;
     text-decoration: none;
     font-weight: 200;
     transition: all 0.2s ease;
-    line-height: 37px;
 
     &:hover {
       border:1px solid transparent;
@@ -113,7 +106,6 @@ body {
       color:dimgrey;
     }
   }
-
   &:hover {
     p, a {
       opacity: 1;
@@ -144,10 +136,52 @@ body {
 .fadeblack {
   opacity: 1;
   animation: fadeblack 1.1s ease;
+  background-color: black;
 }
 @keyframes fadeblack {
+  from {
+    background-color: white;
+  }
   to {
     opacity: 0;
     background-color: black;
+  }
+}
+@media (min-width:0px) and (max-width:599px) {
+  .projects {
+    grid-template-columns:1fr;
+  }
+  .project-card a,p {
+    font-size: calc(30vw/6);
+  }
+  .disabled-card {
+    display: none;
+  }
+}
+@media (min-width:600px) and (max-width:899px){
+  .projects {
+    grid-template-columns:repeat(2, 1fr);
+    width:100%
+  }
+  .project-card a,p {
+    font-size: calc(18vw/6);
+  }
+}
+@media (min-width:900px) and (max-width:1199px) {
+  .projects {
+    grid-template-columns:1fr 1fr 1fr;
+    grid-gap: 0.5em;
+  }
+  .project-card a,p {
+    font-size: calc(10vw/6);
+  }
+}
+@media (min-width:1200px) {
+  .projects {
+    grid-template-columns:repeat(4, 1fr);
+    grid-gap: 0.5em;
+  }
+  .project-card a,p {
+    font-size: calc(8vw/6);
   }
 }
