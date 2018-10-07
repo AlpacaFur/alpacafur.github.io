@@ -521,7 +521,7 @@ printLine("<span class='intro'>(c) 2018 AlpacaFur. All rights reserved.</span>")
 printNewLine();
 if (commands) {
 
-if (localStorage.getItem("name") == true) {
+if (localStorage.getItem("name") == "true") {
   commands["name"].activate()
   printNewLine();
 }
