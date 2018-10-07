@@ -99,7 +99,7 @@ var commands = {
     activate: (result)=>{
       if (localPathExists(result.mainparam, currentPath) && !(isFolder(getLocalPathResults(result.mainparam, currentPath)))) {
         let pathResults = getLocalPathResults(result.mainparam, currentPath)
-        let results = result.mainparam.endsWith(".exe") ? btoa(pathResults) : pathResults
+        let results = result.mainparam.endsWith(".exe") || result.mainparam.endsWith(".dat") ? btoa(pathResults) : pathResults
         printLine(results)
       }
       else {
@@ -230,6 +230,34 @@ var commands = {
             printError(`Error excecuting file: "${e}"`)
           }
         }
+        else if (results.mainparam.endsWith(".dat")) {
+          printNewLine()
+          if (results.mainparam == "nether.dat") {
+            let file = getLocalPathResults(results.mainparam, currentPath)
+            file = file.replace(/([\[\]|_#]+)/g, "<span style='color:darkred;'>$1</span>")
+            file = file.replace(/(\$+)/g, "<span style='color:darkorange;'>$1</span>")
+            file = file.replace(/(\&+)/g, "<span style='color:yellow;'>$1</span>")
+            printLine(file)
+          }
+          else if (results.mainparam == "level.dat") {
+            let file = getLocalPathResults(results.mainparam, currentPath)
+            file = file.replace(/\ (\*+)(\ |\n)/g, "<span style='color:green;'> $1$2</span>")
+            file = file.replace(/\[\]/g, "<span style='color:brown;'>[]</span>")
+            file = file.replace(/\&/g, "<span style='color:brown;'>&</span>")
+            file = file.replace(/(\%+)/g, "<span style='color:RANDOM;'>$1</span>")
+            file = file.replace(/([^#])(#+)([^#])/g, "$1<span style='color:grey;'>$2</span>$3")
+            let oreColors = ["#B80711","tan","#B80711","tan","tan","#38DABB","tan","gold","gold"]
+            let tempColors = oreColors.slice();
+            while (file.match(/RANDOM/)) {
+              let random = Math.floor(Math.random()*tempColors.length)
+              file = file.replace(/RANDOM/, tempColors[random])
+              tempColors.splice(random, 1)
+              if (tempColors.length == 0) tempColors = oreColors.slice();
+            }
+            printLine(file)
+          }
+          printNewLine()
+        }
         else {
           printLine("File not excecutable")
         }
@@ -263,6 +291,20 @@ var commands = {
       else {
         printLine("Please choose either translating to or from base64.")
       }
+    }
+  },
+  home: {
+    "cmdex": "home",
+    "helpmsg": "Returns to website home page.",
+    "acceptedFlags":[],
+    "acceptedParamFlags":[],
+    "subcommands":false,
+    "category": "Utility",
+    activate: ()=>{
+      document.body.classList.add("fadeout")
+      setTimeout(()=>{
+        window.location.href = "/"
+      }, 1000)
     }
   },
   clearhist: {
@@ -321,6 +363,18 @@ var commands = {
       location.reload();
     }
   },
+  reset: {
+    "cmdex": "reset",
+    "helpmsg":"Resets all settings and flags",
+    "acceptedFlags":[],
+    "acceptedParamFlags":[],
+    "debug":true,
+    "category":"Debug",
+    activate: ()=>{
+      localStorage.removeItem("theme");
+      window.location.href = window.location.pathname
+    }
+  },
   ss: {
     "cmdex": "ss [name]",
     "helpmsg": "Shortcut to specific directories",
@@ -335,6 +389,12 @@ var commands = {
       switch (result.mainparam) {
         case "secret":
           res.mainparam = "/MainDisk/Users/user/Documents/Secret/SuperSecret/TOP_SECRET"
+          break;
+        case "gamesaves":
+          res.mainparam = "/USB_DRIVE/Backups/Game_Saves/"
+          break;
+        case "w":
+          res.mainparam = "/USB_DRIVE/Backups/Game_Saves/minecraft/World_One"
           break;
         default:
           printLine(`Shortcut "${result.mainparam}" is not recognised.`)
