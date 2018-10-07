@@ -17,9 +17,6 @@ var commandHistory = []
 var histPos = 0
 var visible = false;
 
-//QueryParams
-var skipLoad = false;
-
 var fileSystem = {"MainDisk":{
                     "Users":{
                       "user":{
@@ -30,13 +27,13 @@ var fileSystem = {"MainDisk":{
                                 "TOP_SECRET":{
                                   "secret.a":"<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>Secret</a>",
                                   "about.md":"#### WebShell ####\nCreated By: AlpacaFur\n\naGVscCAtcw==",
-                                  "debug.info":"ctrl + ` restores prompt functionality regardless of the situation. May break the code."
+                                  "debug.info":"ctrl + ` restores prompt functionality regardless of the situation. May break the code.\nUse help -d to list commands including debug commands."
                                 }
                               }
                             }
                           },
                         "Downloads":{
-                          "notavirus.exe":"function flash(){document.body.style.backgroundColor='red',setTimeout(()=>{document.body.style.backgroundColor=''},100)}flash(),setTimeout(()=>{alert('HI THERE!!!');hidePrompt();},300),setTimeout(flash,1e3),setTimeout(flash,3e3),setTimeout(flash,4e3),setTimeout(flash,6e3),setTimeout(flash,7e3),setTimeout(flash,9e3),printError('[CRITICAL ERROR]: VIRUS DETECTED, ATTEMPTING REMOVAL'),printLine(`<span class='error'>REMOVING VIRUS: [=>              ]0%</span>`),asyncLoadingBar(700,()=>{printSuccess('[INFO]: VIRUS REMOVED'),printSuccess('[INFO]: SHELL FUNCTIONALITY RESTORED');promptdiv.scrollIntoView();showPrompt();});",
+                          "notavirus.exe":"function flash(){document.body.style.backgroundColor='red',setTimeout(()=>{document.body.style.backgroundColor=''},100)}flash(),setTimeout(()=>{alert('HI THERE!!!');hidePrompt();},300),setTimeout(flash,1e3),setTimeout(flash,3e3),setTimeout(flash,4e3),setTimeout(flash,6e3),setTimeout(flash,7e3),setTimeout(flash,9e3),printError('[CRITICAL ERROR]: VIRUS DETECTED, ATTEMPTING REMOVAL'),printLine(`<span class='error'>REMOVING VIRUS: [=>              ]0%</span>`),asyncLoadingBar(700).then(()=>{printSuccess('[INFO]: VIRUS REMOVED');printSuccess('[INFO]: SHELL FUNCTIONALITY RESTORED');promptdiv.scrollIntoView();showPrompt();});",
                           "virus.exe":"switchTheme('s/virus')",
                           "antivirus.exe":"switchTheme(localStorage.getItem('theme') || 'default')",
                           "hello.txt":"HI THERE!",
@@ -47,7 +44,25 @@ var fileSystem = {"MainDisk":{
                         }
                       }
                     }
-                   }
+                  },
+                  "USB_DRIVE":{
+                    "Backups":{
+                      "Game_Saves":{
+                        "CivV":{
+                          "InSovietRussia.civ":"TV watch you.",
+                          "InCapitalistAmerica.civ":"Bank rob you."
+                        },
+                        "minecraft": {"World_Oxne":
+                                      {"level.dat":`@@@@@     @@@@         @@@@@\n@@@      @@@@@@@          @@@@\n        @@@\n                 **              **\n               ******          ******\n               ******          ******\n                 []     ____     []\n____       ______[]____|####|____[]\n####|_____|##########################|\n#######################################|\n#######################################|\n#####%%%##################|\n######%%%%##########%%%|     __________\n####################%%#|____|##########|\n#######################################|\n#######################################|\n#######################################|\n&&&&&&&&&&#######%%%###################|\n[]   []   #######################%%####|\n[]   []   #############################|\n[]_#_[]___#############################|\n#######################%%%#############|\n####%%################%%###############|\n#####%%%###############################|\n#######################################|`,
+                                      "nether.dat":`########################################\n&&&&   $   ###########         $    &&\n&&     $       &&&&            $     &&\n       $         &&            $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $     \n_______$_______________________$______\n#######$##############################|\n#######$##############################|\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]  ####      [#]   $$\n##$$$$$$$$[#########$$$$$[#]$$$$$$$$$$$#\n###$$$$$$$[#################$$$$$$$$$$##\n####$$$$$$###################$$$$$$$$###\n########################################`
+                                      }
+                        }
+                      },
+                      "Something_Else":{
+
+                      }
+                    }
+                  }
                   }
 var homeFolder = "MainDisk/Users/user"
 var currentPath = "MainDisk/Users/user"
@@ -306,6 +321,7 @@ function switchTheme(theme) {
 }
 function queryParse () {
   let urlParams = new URLSearchParams(window.location.search);
+  let object = {};
   let theme = urlParams.get('theme')
   try {
     if (theme) {
@@ -316,7 +332,8 @@ function queryParse () {
     }
   }
   catch(e) {}
-  skipLoad = !!urlParams.get('skipLoad');
+  object.skipLoad = !!urlParams.get('skipLoad');
+  return object;
 }
 
 
@@ -363,27 +380,6 @@ async function queueLoading(messages, timeout) {
     await asyncLoadingBar(timeout);
   }
 }
-
-// function loadingBar(timeout, callback) {
-//   let consoletext = terminal.innerHTML;
-//   consoletext = consoletext.split("\n")
-//   consoletext.pop()
-//   let lastline = consoletext.pop()
-//   let match = lastline.match(/\[((=*)&gt;(\ +))\]/)
-//   if (match) {
-//     let bar = `[${"=".repeat(match[2].length+1)}>${" ".repeat(match[3].length-1)}]`
-//     lastline = lastline.replace(/\[((=*)&gt;\s+)\](\d+)%/, bar + Math.floor(match[2].length/(match[0].length-6)*100) + "%")
-//     terminal.innerHTML = consoletext.join("\n") + "\n" + lastline + "\n"
-//     setTimeout(()=>{loadingBar(timeout, callback)}, timeout)
-//   }
-//   else {
-//     match = lastline.match(/\[((=*)&gt;)\]/)
-//     let bar = `[${"=".repeat(match[2].length+1)}]`
-//     lastline = lastline.replace(/\[((=*)&gt;)\](\d+)%/, bar + "100%")
-//     terminal.innerHTML = consoletext.join("\n") + "\n" + lastline + "\n"
-//     callback()
-//   }
-// }
 
 function parseCommand(cmdparts, command) {
   let result = {paramFlags:{}, flags:{}};
@@ -525,12 +521,12 @@ printLine("<span class='intro'>(c) 2018 AlpacaFur. All rights reserved.</span>")
 printNewLine();
 if (commands) {
 
-if (localStorage.getItem("name")) {
+if (localStorage.getItem("name") == true) {
   commands["name"].activate()
   printNewLine();
 }
-queryParse();
-if (!skipLoad){
+let options = queryParse();
+if (!options.skipLoad){
 queueLoading([
 "Loading Stylesheets...      [=>                              ]0%",
 "Loading Commands...         [=>                              ]0%",
@@ -545,7 +541,6 @@ queueLoading([
 }
 else {
 showPrompt();
-prompt();
 }
 
 }
