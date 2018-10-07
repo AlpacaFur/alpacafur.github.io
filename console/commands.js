@@ -372,7 +372,33 @@ var commands = {
     "category":"Debug",
     activate: ()=>{
       localStorage.removeItem("theme");
+      localStorage.removeItem("name");
       window.location.href = window.location.pathname
+    }
+  },
+  settings: {
+    "cmdex": "settings [setting] (-v value)",
+    "helpmsg":"Sets the value of a setting.",
+    "acceptedFlags":[],
+    "acceptedParamFlags":["-v"],
+    "debug":true,
+    "category":"Debug",
+    "mainParamRequired":true,
+    activate: (results)=>{
+      let settings = []
+      if (results.mainparam == "theme") {
+        printLine(`Use "theme save [theme]" instead.`)
+      }
+      else if (!results.paramFlags["-v"]) {
+        if (["name"].includes(results.mainparam)) {
+          printLine(`Current Value: ${localStorage.getItem(results.mainparam)}`)
+        }
+      }
+      else {
+        if (["name"].includes(results.mainparam)) {
+          localStorage.setItem(results.mainparam, results.paramFlags["-v"]);
+        }
+      }
     }
   },
   ss: {
