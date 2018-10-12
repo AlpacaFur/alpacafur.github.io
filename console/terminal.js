@@ -1,3 +1,4 @@
+"use strict";
 var name = `\
 888       888          888       .d8888b.  888               888 888
 888   o   888          888      d88P  Y88b 888               888 888
@@ -16,6 +17,11 @@ var cursorpos = 0
 var commandHistory = []
 var histPos = 0
 var visible = false;
+
+var currentApplication = {};
+
+var homeFolder = "MainDisk/Users/user"
+var currentPath = "MainDisk/Users/user"
 
 var fileSystem = {"MainDisk":{
                     "Users":{
@@ -41,6 +47,10 @@ var fileSystem = {"MainDisk":{
                           "hello(2).txt":"HI THERE!",
                           "hello(3).txt":"HI THERE!",
                           "hello(4).txt":"HI THERE!"
+                        },
+                        "Applications":{
+                          "discord.exe":`discordApplication()`,
+                          "skype.exe":`printError("[ApplicationError]: Skype.exe has encountered a problem and stopped working. (It's probably for the best anyway...)")`
                         }
                       }
                     }
@@ -64,10 +74,9 @@ var fileSystem = {"MainDisk":{
                     }
                   }
                   }
-var homeFolder = "MainDisk/Users/user"
-var currentPath = "MainDisk/Users/user"
 
 document.addEventListener("keydown", (e)=>{
+  if (e.key == "c" && e.ctrlKey) currentApplication.exit();
   if (e.key == "`" && e.ctrlKey){ showPrompt(); printLine("Prompt restored."); return;}
   if (!visible) return;
   if (["Shift","CapsLock","Control","Alt","Meta","Escape","Dead"].includes(e.key) || e.key.match(/F\d+/)) return;
@@ -138,12 +147,6 @@ document.addEventListener("keydown", (e)=>{
   promptdiv.scrollIntoView();
 })
 
-
-
-
-
-
-
 function printLine(text) {
   terminal.innerHTML += text + "\n";
 }
@@ -185,7 +188,7 @@ function backspace() {
   }
 }
 function type(text) {
-  if (input.innerText.length = 0 || cursorpos == input.innerText.length) {
+  if (input.innerText.length == 0 || cursorpos == input.innerText.length) {
     let temp = input.innerText + text
     temp = highlightFirstWord(temp)
     input.innerHTML = temp
@@ -209,15 +212,28 @@ function moveCaret(dir) {
   }
 }
 function history(dir) {
-  if (dir == "back" && histPos != 0) {
-    histPos--;
-    input.innerHTML = highlightFirstWord(commandHistory[histPos])
+  if (dir == "back") {
+    if (!currentApplication.active && histPos != 0) {
+      histPos--;
+      input.innerHTML = highlightFirstWord(commandHistory[histPos])
+    }
+    else if (currentApplication.active && currentApplication.history && currentApplication.history.position != 0) {
+      currentApplication.history.position--;
+      input.innerHTML = highlightFirstWord(currentApplication.history.commands[currentApplication.history.position])
+    }
   }
   else if (dir == "forward") {
-    if (histPos >= commandHistory.length-1) {
-      input.innerHTML = ""
-      histPos == commandHistory.length;
-      histPos++
+    if (currentApplication.active && currentApplication.history && currentApplication.history.position >= currentApplication.history.commands.length-1) {
+      input.innerHTML = "";
+      currentApplication.history.position = currentApplication.history.commands.length;
+    }
+    else if (currentApplication.active && currentApplication.history){
+      currentApplication.history.position++;
+      input.innerHTML = highlightFirstWord(currentApplication.history.commands[currentApplication.history.position])
+    }
+    else if (histPos >= commandHistory.length-1) {
+      input.innerHTML = "";
+      histPos = commandHistory.length;
     }
     else {
       histPos++;
@@ -272,7 +288,7 @@ function getLocalPathResults(path, currentPath) {
 function recursivePathAccess(path, files) {
   if (path == "") return files;
   if (path.length == 1) return files[path[0]];
-  dir = path.shift()
+  let dir = path.shift()
   if (!files[dir]) return false;
   return recursivePathAccess(path, files[dir])
 }
@@ -364,7 +380,7 @@ async function asyncLoadingBar(timeout) {
     consoletextt = consoletextt.split("\n")
     consoletextt.pop()
     lastlinet = consoletextt.pop()
-    match = lastlinet.match(/\[((=*)&gt;)\](\d+)%/)
+    let match = lastlinet.match(/\[((=*)&gt;)\](\d+)%/)
     let bar = `[${"=".repeat(match[2].length+1)}]`
     lastline = lastline.replace(/\[((=*)&gt;)\](\d+)%/, bar + "100%")
     terminal.innerHTML = consoletextt.join("\n") + "\n" + lastline + "\n"
@@ -375,7 +391,7 @@ async function asyncLoadingBar(timeout) {
 
 async function queueLoading(messages, timeout) {
   let temp;
-  for (msg of messages) {
+  for (let msg of messages) {
     printLine(msg)
     await asyncLoadingBar(timeout);
   }
@@ -389,18 +405,14 @@ function parseCommand(cmdparts, command) {
   let failsafe = 0
   while (cmdparts.length >= 1 && failsafe < 1000) {
     if (cmdparts.match(/^([^-"][^\s\n\r"]*)(\s|$)/)) {
-      console.log(cmdparts);
       if (result.subcommand) {
         if(!result.mainparam) result.mainparam = "";
-        console.log(result.mainparam);
         result.mainparam += cmdparts.match(/^([^-"][^\s\n\r"]*)(\s|$)/)[1];
-        console.log(result.mainparam);
       }
       else {
         result.subcommand = cmdparts.match(/^([^-"][^\s\n\r"]*)(\s|$)/)[1]
       }
       cmdparts = cmdparts.replace(/^([^-"][^\s\n\r"]*)(\s|$)/, "")
-      console.log(cmdparts);
     }
     else if (cmdparts.match(/^"[^"]+"(\s|$)/)) {
       result.mainparam = cmdparts.match(/"([^"]+)"\s?\s?/)[1]
@@ -461,10 +473,11 @@ function submit() {
   let text = input.innerText
   input.innerHTML = "";
   appendLine(promptdiv.innerHTML)
-  appendLine(highlightFirstWord(text));
+  if (!currentApplication.hiddenInput) appendLine(highlightFirstWord(text));
   appendLine("\n")
   cursorpos = 0;
   caret.style.left = "0px"
+  if (currentApplication.active) {currentApplication.handler(text);return;}
   let result = parseCommand(text.trim())
   if (commands[result.command]) {
     let cmd = commands[result.command]
@@ -497,24 +510,16 @@ function submit() {
     showPrompt();
   }
 }
-
-
 function checkFlags(cmd, result) {
   let errors = []
-  for (flag of Object.keys(result.flags)) {
+  for (let flag of Object.keys(result.flags)) {
     if (!cmd.acceptedFlags.includes(flag)) errors.push(flag);
   }
-  for (paramFlag of Object.keys(result.paramFlags)) {
+  for (let paramFlag of Object.keys(result.paramFlags)) {
     if (!cmd.acceptedParamFlags.includes(paramFlag)) errors.push(paramFlag);
   }
   return {errors: errors, success: errors.length == 0}
 }
-
-
-
-
-
-
 
 printLine("<span class='intro'>WebShell [Version 1.5.00000.001]</span>");
 printLine("<span class='intro'>(c) 2018 AlpacaFur. All rights reserved.</span>");

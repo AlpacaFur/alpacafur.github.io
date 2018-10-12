@@ -19,8 +19,6 @@ var commands = {
             longestFirst = cmd.cmdex.length > longestFirst ? cmd.cmdex.length : longestFirst;
           }
         }
-        console.log(categories);
-        // printHeader("Command" + " ".repeat((longestFirst-7)+5) + "Help Message")
         for (let category in categories) {
           printHeader(category)
           categories[category].sort((a, b)=>{
@@ -421,6 +419,9 @@ var commands = {
           break;
         case "w":
           res.mainparam = "/USB_DRIVE/Backups/Game_Saves/minecraft/World_One"
+          break;
+        case "d":
+          commands.run.activate({mainparam:"~/Applications/discord.exe"})
           break;
         default:
           printLine(`Shortcut "${result.mainparam}" is not recognised.`)
