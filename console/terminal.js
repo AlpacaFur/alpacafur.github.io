@@ -117,16 +117,8 @@ document.addEventListener("keydown", (e)=>{
       if (cursorpos != input.innerText.length) return;
 
       e.preventDefault()
-      let autocomplete = []
-      let itext = input.innerText.split(" ")[1]
-      let dir = getLocalPathResults(currentPath, "")
-      for (let item in dir) {
-        if (item.startsWith(itext)) autocomplete.push(item);
-      }
-      if (autocomplete.length == 1) {
-        input.innerHTML = highlightFirstWord(input.innerText.split(" ")[0] + " " + autocomplete[0]);
-        cursorpos = input.innerText.length
-      }
+      autoComplete(input.innerText)
+
       break;
     case "v":
       if(e.ctrlKey | e.metaKey) {
@@ -146,6 +138,26 @@ document.addEventListener("keydown", (e)=>{
   }
   promptdiv.scrollIntoView();
 })
+
+function autoComplete(inputText) {
+  inputText = inputText.split(" ")
+  if (inputText.length <= 1) return;
+  let path = inputText[inputText.length-1].split("/")
+  let lastItem = path.pop()
+  path = path.join("/")
+  let results = path.length > 0 ? getLocalPathResults(path, currentPath) : getLocalPathResults("", currentPath)
+  if (!results) return;
+  let autocomplete = []
+  for (let item in results) {
+    if (item.startsWith(lastItem)) autocomplete.push(item);
+  }
+  if (autocomplete.length == 1) {
+    inputText.pop()
+    inputText = inputText.join(" ") + " " + (path ? path + "/" : "") + autocomplete[0]
+    input.innerHTML = highlightFirstWord(inputText);
+    cursorpos = input.innerText.length
+  }
+}
 
 function printLine(text) {
   terminal.innerHTML += text + "\n";
