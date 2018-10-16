@@ -182,7 +182,7 @@ function hidePrompt() {
   visible = false;
 }
 function showPrompt() {
-  document.getElementById("inputline").style.display = "initial"
+  document.getElementById("inputline").style.display = ""
   visible = true;
   promptdiv.scrollIntoView();
 }
