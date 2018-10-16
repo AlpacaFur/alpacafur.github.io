@@ -67,9 +67,6 @@ var fileSystem = {"MainDisk":{
                                       "nether.dat":`########################################\n&&&&   $   ###########         $    &&\n&&     $       &&&&            $     &&\n       $         &&            $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $     \n_______$_______________________$______\n#######$##############################|\n#######$##############################|\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]  ####      [#]   $$\n##$$$$$$$$[#########$$$$$[#]$$$$$$$$$$$#\n###$$$$$$$[#################$$$$$$$$$$##\n####$$$$$$###################$$$$$$$$###\n########################################`
                                       }
                         }
-                      },
-                      "Something_Else":{
-
                       }
                     }
                   }
@@ -158,7 +155,13 @@ function autoComplete(inputText) {
     cursorpos = input.innerText.length
   }
 }
-
+function getFileInfo(ogpath) {
+  let path = ogpath.split("/")
+  let file = path.pop()
+  let results = getLocalPathResults(path.join("/"),currentPath)
+  if (!results) return false;
+  return {name:file,file:results[file],path:ogpath}
+}
 function printLine(text) {
   terminal.innerHTML += text + "\n";
 }

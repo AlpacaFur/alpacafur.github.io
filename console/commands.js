@@ -229,15 +229,16 @@ var commands = {
           }
         }
         else if (results.mainparam.endsWith(".dat")) {
+          let filename = getFileInfo(results.mainparam).name
           printNewLine()
-          if (results.mainparam == "nether.dat") {
+          if (filename == "nether.dat") {
             let file = getLocalPathResults(results.mainparam, currentPath)
             file = file.replace(/([\[\]|_#]+)/g, "<span style='color:darkred;'>$1</span>")
             file = file.replace(/(\$+)/g, "<span style='color:darkorange;'>$1</span>")
             file = file.replace(/(\&+)/g, "<span style='color:yellow;'>$1</span>")
             printLine(file)
           }
-          else if (results.mainparam == "level.dat") {
+          else if (filename == "level.dat") {
             let file = getLocalPathResults(results.mainparam, currentPath)
             file = file.replace(/\ (\*+)(\ |\n)/g, "<span style='color:green;'> $1$2</span>")
             file = file.replace(/\[\]/g, "<span style='color:brown;'>[]</span>")
