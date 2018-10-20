@@ -80,7 +80,7 @@ var commands = {
       let folder = getLocalPathResults(result.mainparam, currentPath)
       if (folder && isFolder(folder)) {
         currentPath = parseLocalPath(result.mainparam, currentPath, true)
-        promptdiv.innerHTML = `<span class="prompt">WebShell:${(currentPath.startsWith("~")?"":"/")+currentPath} $ </span>`
+        updatePrompt()
       }
       else {
         printLine("Directory not found.")

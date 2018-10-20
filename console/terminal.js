@@ -20,58 +20,6 @@ var visible = false;
 
 var currentApplication = {};
 
-var homeFolder = "MainDisk/Users/user"
-var currentPath = "MainDisk/Users/user"
-
-var fileSystem = {"MainDisk":{
-                    "Users":{
-                      "user":{
-                        "Documents":{
-                          "test.txt":"Hello, World",
-                            "Secret":{
-                              "SuperSecret":{
-                                "TOP_SECRET":{
-                                  "secret.a":"<a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'>Secret</a>",
-                                  "about.md":"#### WebShell ####\nCreated By: AlpacaFur\n\naGVscCAtcw==",
-                                  "debug.info":"ctrl + ` restores prompt functionality regardless of the situation. May break the code.\nUse help -d to list commands including debug commands."
-                                }
-                              }
-                            }
-                          },
-                        "Downloads":{
-                          "notavirus.exe":"function flash(){document.body.style.backgroundColor='red',setTimeout(()=>{document.body.style.backgroundColor=''},100)}flash(),setTimeout(()=>{alert('HI THERE!!!');hidePrompt();},300),setTimeout(flash,1e3),setTimeout(flash,3e3),setTimeout(flash,4e3),setTimeout(flash,6e3),setTimeout(flash,7e3),setTimeout(flash,9e3),printError('[CRITICAL ERROR]: VIRUS DETECTED, ATTEMPTING REMOVAL'),printLine(`<span class='error'>REMOVING VIRUS: [=>              ]0%</span>`),asyncLoadingBar(700).then(()=>{printSuccess('[INFO]: VIRUS REMOVED');printSuccess('[INFO]: SHELL FUNCTIONALITY RESTORED');promptdiv.scrollIntoView();showPrompt();});",
-                          "virus.exe":"switchTheme('s/virus')",
-                          "antivirus.exe":"switchTheme(localStorage.getItem('theme') || 'default')",
-                          "hello.txt":"HI THERE!",
-                          "hello(1).txt":"HI THERE!",
-                          "hello(2).txt":"HI THERE!",
-                          "hello(3).txt":"HI THERE!",
-                          "hello(4).txt":"HI THERE!"
-                        },
-                        "Applications":{
-                          "discord.exe":`discordApplication()`,
-                          "skype.exe":`printError("[ApplicationError]: Skype.exe has encountered a problem and stopped working. (It's probably for the best anyway...)")`
-                        }
-                      }
-                    }
-                  },
-                  "USB_DRIVE":{
-                    "Backups":{
-                      "Game_Saves":{
-                        "CivV":{
-                          "InSovietRussia.civ":"TV watch you.",
-                          "InCapitalistAmerica.civ":"Bank rob you."
-                        },
-                        "minecraft": {"World_One":
-                                      {"level.dat":`@@@@@     @@@@         @@@@@\n@@@      @@@@@@@          @@@@\n        @@@\n                 **              **\n               ******          ******\n               ******          ******\n                 []     ____     []\n____       ______[]____|####|____[]\n####|_____|##########################|\n#######################################|\n#######################################|\n#####%%%##################|\n######%%%%##########%%%|     __________\n####################%%#|____|##########|\n#######################################|\n#######################################|\n#######################################|\n&&&&&&&&&&#######%%%###################|\n[]   []   #######################%%####|\n[]   []   #############################|\n[]_#_[]___#############################|\n#######################%%%#############|\n####%%################%%###############|\n#####%%%###############################|\n#######################################|`,
-                                      "nether.dat":`########################################\n&&&&   $   ###########         $    &&\n&&     $       &&&&            $     &&\n       $         &&            $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $\n       $                       $     \n_______$_______________________$______\n#######$##############################|\n#######$##############################|\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]            [#]   $\n       $  [#]  ####      [#]   $$\n##$$$$$$$$[#########$$$$$[#]$$$$$$$$$$$#\n###$$$$$$$[#################$$$$$$$$$$##\n####$$$$$$###################$$$$$$$$###\n########################################`
-                                      }
-                        }
-                      }
-                    }
-                  }
-                  }
-
 document.addEventListener("keydown", (e)=>{
   if (e.key == "c" && e.ctrlKey) currentApplication.exit();
   if (e.key == "`" && e.ctrlKey){ showPrompt(); printLine("Prompt restored."); return;}
@@ -114,7 +62,8 @@ document.addEventListener("keydown", (e)=>{
       if (cursorpos != input.innerText.length) return;
 
       e.preventDefault()
-      autoComplete(input.innerText)
+      input.innerHTML = highlightFirstWord(autoComplete(input.innerText));
+      cursorpos = input.innerText.length;
 
       break;
     case "v":
@@ -136,32 +85,31 @@ document.addEventListener("keydown", (e)=>{
   promptdiv.scrollIntoView();
 })
 
-function autoComplete(inputText) {
-  inputText = inputText.split(" ")
-  if (inputText.length <= 1) return;
-  let path = inputText[inputText.length-1].split("/")
-  let lastItem = path.pop()
-  path = path.join("/")
-  let results = path.length > 0 ? getLocalPathResults(path, currentPath) : getLocalPathResults("", currentPath)
+function autoComplete(input) {
+  input = input.split(" ")
+  if (input.length < 2) return;
+  let path = input.pop()
+  let chunkIndex = path.lastIndexOf("/");
+  let lastItem;
+  if (chunkIndex != -1) {
+    lastItem = path.slice(chunkIndex+1)
+    path = path.slice(0, chunkIndex+1)
+  }
+  else {
+    lastItem = path;
+    path = "";
+  }
+  let results = getLocalPathResults(path.length > 0 ? path : "", currentPath)
   if (!results) return;
-  let autocomplete = []
+  let autocomplete = [];
   for (let item in results) {
     if (item.startsWith(lastItem)) autocomplete.push(item);
   }
   if (autocomplete.length == 1) {
-    inputText.pop()
-    inputText = inputText.join(" ") + " " + (path ? path + "/" : "") + autocomplete[0]
-    input.innerHTML = highlightFirstWord(inputText);
-    cursorpos = input.innerText.length
+    return input.join(" ") + " " + path + autocomplete[0]
   }
 }
-function getFileInfo(ogpath) {
-  let path = ogpath.split("/")
-  let file = path.pop()
-  let results = getLocalPathResults(path.join("/"),currentPath)
-  if (!results) return false;
-  return {name:file,file:results[file],path:ogpath}
-}
+
 function printLine(text) {
   terminal.innerHTML += text + "\n";
 }
@@ -192,7 +140,10 @@ function showPrompt() {
 function clearConsole() {
   terminal.innerHTML = "";
 }
-
+function updatePrompt() {
+  let path = parseLocalPath("", currentPath, true)
+  promptdiv.innerHTML = `<span class="prompt">WebShell:${(path.startsWith("~")?"":"/")+path} $ </span>`
+}
 function backspace() {
   if (input.innerText != "" && cursorpos != 0) {
     let text = input.innerText;
@@ -261,55 +212,6 @@ function history(dir) {
 function highlightFirstWord(text) {
   return text.replace(/^([^\s]+)(\s?)/, '<span class="first-word">$1</span>$2')
 }
-
-// #####  PATH FUNCTIONS  #####
-
-function isFolder (files) {
-  return !(typeof files == "string");
-}
-function localPathExists(path, currentPath) {
-  return !!getLocalPathResults(path, currentPath)
-}
-function parseLocalPath(path, currentPath, display) {
-  if (path.startsWith("~")) {
-    path = path.slice(1)
-    currentPath = ""
-    path = homeFolder + path
-  }
-  if (path.startsWith("/")) {
-    path = path.slice(1)
-    currentPath = ""
-  }
-  if (path.startsWith("..") && currentPath != "") {
-    path = path.slice(2)
-    currentPath = currentPath.split("/")
-    currentPath.pop()
-    currentPath = currentPath.join("/")
-    path += currentPath
-    currentPath = ""
-  }
-  if (currentPath != "") path = currentPath + "/" + path;
-  if (path.endsWith("/")) path = path.slice(0,-1);
-  if (path.startsWith(homeFolder) && display) {
-    path = path.slice(homeFolder.length)
-    path = "~" + path
-  }
-  return path;
-}
-function getLocalPathResults(path, currentPath) {
-  path = parseLocalPath(path, parseLocalPath(currentPath, ""), false).split("/")
-  return recursivePathAccess(path, fileSystem);
-}
-function recursivePathAccess(path, files) {
-  if (path == "") return files;
-  if (path.length == 1) return files[path[0]];
-  let dir = path.shift()
-  if (!files[dir]) return false;
-  return recursivePathAccess(path, files[dir])
-}
-
-
-
 
 function buildList(files) {
   if (!files) return [];
@@ -536,6 +438,7 @@ function checkFlags(cmd, result) {
   return {errors: errors, success: errors.length == 0}
 }
 
+updatePrompt()
 printLine("<span class='intro'>WebShell [Version 1.5.00000.001]</span>");
 printLine("<span class='intro'>(c) 2018 AlpacaFur. All rights reserved.</span>");
 printNewLine();
