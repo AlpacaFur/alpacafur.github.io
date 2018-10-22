@@ -26,14 +26,25 @@ document.addEventListener("keydown", (e)=>{
   if (!visible) return;
   if (["Shift","CapsLock","Control","Alt","Meta","Escape","Dead"].includes(e.key) || e.key.match(/F\d+/)) return;
   if (e.key.match(/Arrow.+/)) {
-    if (e.metaKey || e.ctrlKey) return;
     e.preventDefault();
     switch (e.key) {
       case "ArrowLeft":
-        moveCaret("left")
+        if (e.ctrlKey || e.metaKey) {
+          caret.style.left = `-${(input.innerText.length)*(input.offsetWidth/input.innerText.length)}px`
+          cursorpos = 0;
+        }
+        else {
+          moveCaret("left")
+        }
         break;
       case "ArrowRight":
-        moveCaret("right")
+        if (e.ctrlKey || e.metaKey) {
+          caret.style.left = "0px"
+          cursorpos = input.innerText.length
+        }
+        else {
+          moveCaret("right")
+        }
         break;
       case "ArrowUp":
         history("back")
