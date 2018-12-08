@@ -10,11 +10,16 @@
   <url>
     <loc>http://alpacafur.github.io/hexclock/</loc>
     <priority>0.9</priority>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
   </url>
   <url>
     <loc>http://alpacafur.github.io/console/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>http://alpacafur.github.io/holidays/</loc>
+    <priority>0.2</priority>
+    <changefreq>monthly</changefreq>
   </url>
 </urlset>
