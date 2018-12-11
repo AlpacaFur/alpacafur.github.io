@@ -8,9 +8,13 @@ h1 {
 p {
   font-size: calc(70vw/11);
 }
-link {
-  color:#5495ff;
+.link {
+  color:#64a5ff;
   cursor: pointer;
+  transition: color 0.25s ease;
+}
+.link:hover {
+  color:#3475dd;
 }
 .fade {
   opacity: 1;
