@@ -17,9 +17,4 @@
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
-  <url>
-    <loc>http://alpacafur.github.io/holidays/</loc>
-    <priority>0.2</priority>
-    <changefreq>monthly</changefreq>
-  </url>
 </urlset>
