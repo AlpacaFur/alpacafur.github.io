@@ -201,3 +201,30 @@ body {
     font-size: calc(8vw/6);
   }
 }
+
+#darkmodecont {
+  img {
+    display: none;
+  }
+  :first-child {
+    display: block;
+    @media (prefers-color-scheme) {
+      display: none;
+    }
+  }
+  :nth-child(2) {
+    @media (prefers-color-scheme: no-preference) {
+      display: block;
+    }
+  }
+  :nth-child(3) {
+    @media (prefers-color-scheme: light) {
+      display: block;
+    }
+  }
+  :nth-child(4) {
+    @media (prefers-color-scheme: dark) {
+      display: block;
+    }
+  }
+}
