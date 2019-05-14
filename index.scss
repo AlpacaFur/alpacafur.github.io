@@ -1,26 +1,9 @@
 ---
 ---
-@font-face {
-    font-family: 'Roboto';
-    src: url('/assets/fonts/roboto-regular-webfont.woff2') format('woff2'),
-         url('/assets/fonts/roboto-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Roboto';
-    src: url('/assets/fonts/roboto-thin-webfont.woff2') format('woff2'),
-         url('/assets/fonts/roboto-thin-webfont.woff') format('woff');
-    font-weight: 100;
-    font-style: normal;
-    font-display: swap;
-}
+{% include font.txt name="Roboto" weight=100 %}
+{% include font.txt name="Roboto" weight=400 %}
 body {
   font-family: "Roboto",sans-serif;
-}
-body {
-  opacity: 1;
   animation: fadein 1s ease;
 }
 @keyframes fadein {
@@ -34,7 +17,7 @@ body {
 .alpacafur {
   text-align: center;
   font-size: calc(60vw/9);
-  a, a:visited {
+  a {
     color:black;
     text-decoration: none;
   }
@@ -56,20 +39,6 @@ body {
 .project-card {
   position: relative;
 
-  &:not(.disabled-card){
-    p {
-      transform: translate(-50%, -70%);
-    }
-    a {
-      transform: translate(-50%,-30%);
-    }
-  }
-  &.disabled-card {
-    p,a {
-      transform: translate(-50%, -50%);
-    }
-  }
-
   p, a {
     opacity: 0;
     color:white;
@@ -87,6 +56,9 @@ body {
     margin:0px;
     font-weight:bold;
     transition: all 0.2s ease;
+    width:100%;
+    text-align: center;
+    transform: translate(-50%, -70%);
 
   }
   a {
@@ -97,27 +69,16 @@ body {
     top:63%;
     border:1px solid white;
     padding: 10px 9px;
-    vertical-align:middle;
     text-align: center;
     text-decoration: none;
     font-weight: 200;
     transition: all 0.2s ease;
+    transform: translate(-50%,-30%);
 
     &:hover {
       border:1px solid transparent;
       background-color: white;
       color:black;
-    }
-    &.disabled {
-      cursor:default;
-      border-color:dimgrey;
-      color: dimgrey;
-      text-decoration: line-through;
-    }
-    &.disabled:hover {
-      border:1px solid dimgrey;
-      background-color: transparent;
-      color:dimgrey;
     }
   }
   &:hover {
@@ -126,17 +87,11 @@ body {
       transition:all 0.15s ease;
       transform: translate(-50%, -50%);
     }
-    img, svg {
+    img {
       filter: brightness(0.3);
 
     }
   }
-}
-.disabled {
-  border-color:grey;
-}
-.disabled-card p {
-  color:dimgrey;
 }
 .fade {
   opacity: 0;
@@ -170,9 +125,6 @@ body {
   }
   .project-card a,p {
     font-size: calc(30vw/6);
-  }
-  .disabled-card {
-    display: none;
   }
 }
 @media (min-width:600px) and (max-width:899px){

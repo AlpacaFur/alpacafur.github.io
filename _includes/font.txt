@@ -1,0 +1,7 @@
+@font-face {
+  font-family: '{{include.name}}';
+  src: {% if include.woff2 == 1 %}url('/assets/fonts/{{include.name | replace: " ", "-" | downcase}}-{{include.weight}}.woff2') format('woff2'),{% endif %}
+       url('/assets/fonts/{{include.name | replace: " ", "-" | downcase}}-{{include.weight}}.woff') format('woff');
+  font-weight: {{include.weight}};
+  font-display: swap;
+}
