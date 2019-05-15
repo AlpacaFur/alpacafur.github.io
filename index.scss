@@ -28,7 +28,7 @@ body {
 }
 .projects {
   display: grid;
-  grid-template-columns:repeat(4, 1fr);
+  grid-template-columns: repeat( auto-fill, minmax(300px, 1fr) );
   grid-gap: 1em;
   width: 90%;
   position: relative;
@@ -89,13 +89,13 @@ body {
     }
     img {
       filter: brightness(0.3);
-
     }
   }
 }
 .fade {
   opacity: 0;
   animation: fade 1.1s ease;
+  background-color: white;
 }
 @keyframes fade {
   from {
@@ -117,40 +117,6 @@ body {
   to {
     opacity: 0;
     background-color: black;
-  }
-}
-@media (min-width:0px) and (max-width:599px) {
-  .projects {
-    grid-template-columns:1fr;
-  }
-  .project-card a,p {
-    font-size: calc(30vw/6);
-  }
-}
-@media (min-width:600px) and (max-width:899px){
-  .projects {
-    grid-template-columns:repeat(2, 1fr);
-  }
-  .project-card a,p {
-    font-size: calc(18vw/6);
-  }
-}
-@media (min-width:900px) and (max-width:1199px) {
-  .projects {
-    grid-template-columns:1fr 1fr 1fr;
-    grid-gap: 0.5em;
-  }
-  .project-card a,p {
-    font-size: calc(10vw/6);
-  }
-}
-@media (min-width:1200px) {
-  .projects {
-    grid-template-columns:repeat(4, 1fr);
-    grid-gap: 1em;
-  }
-  .project-card a,p {
-    font-size: calc(8vw/6);
   }
 }
 
